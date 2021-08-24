@@ -17,8 +17,9 @@ FFLAGS    = -std=legacy -Wno-argument-mismatch -fPIC
 all:	$(TARGETS)
 libminipacklib.a: hlimap.o hidall.o mzwork.o hcreatem.o hshm.o hmapm.o hrin2.o hcopyu.o hcopyn.o hcopyt.o zebra.o hbook.o cernlib.o kernlib.o
 	echo $^ | $(XARGS) $(AR) $@
-libminipacklib.so: libminipacklib.a
-	gcc -shared -Wl,-soname,$@ $^ -o $@
+	ranlib $@
+libminipacklib.so:  hlimap.o hidall.o mzwork.o hcreatem.o hshm.o hmapm.o hrin2.o hcopyu.o hcopyn.o hcopyt.o zebra.o hbook.o cernlib.o kernlib.o
+	$(FC) -shared -o $@ $^
 %.o: %.c
 	$(CC)      $(CFLAGS)   -c $<
 %.o: %.f
